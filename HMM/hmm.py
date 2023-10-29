@@ -4,7 +4,7 @@ from hmmlearn.hmm import GaussianHMM
 import io
 import requests
 import time
-import datetime
+from datetime import datetime
 import yfinance as yf
 import numpy as np
 import pandas as pd
@@ -13,8 +13,9 @@ import os
 for dirname, _, filenames in os.walk('/kaggle/input'):
     for filename in filenames:
         print(os.path.join(dirname, filename))
-
-data = yf.download("AAPL", start="2010-01-01", end="2023-10-01")
+end = datetime.now()
+start = datetime(2019, end.month, end.day)
+data = yf.download("AAPL", start, end)
 data.head()
 data.shape
 train_size = int(0.8*data.shape[0])
@@ -90,7 +91,6 @@ plt.plot(x_axis, test_data.iloc[0:num_days_to_predict]
          ['Close'], 'b+-', label="Actual close prices")
 plt.plot(x_axis, predicted_close_prices, 'ro-', label="Predicted close prices")
 plt.legend(prop={'size': 20})
-plt.show()
 ae = abs(test_data.iloc[0:num_days_to_predict]
          ['Close'] - predicted_close_prices)
 
@@ -98,7 +98,6 @@ plt.figure(figsize=(30, 10), dpi=80)
 
 plt.plot(x_axis, ae, 'go-', label="Error")
 plt.legend(prop={'size': 20})
-plt.show()
 print("Max error observed = " + str(ae.max()))
 print("Min error observed = " + str(ae.min()))
 print("Mean error observed = " + str(ae.mean()))
@@ -140,7 +139,6 @@ plt.plot(n_components_values, mae_num_components, 'go-', label="Error")
 plt.xlabel("Number of hidden states")
 plt.ylabel("MAE")
 plt.legend(prop={'size': 20})
-plt.show()
 mae_num_steps = []
 model = GaussianHMM(n_components=baseline_n_componets)
 model.fit(features_train)
