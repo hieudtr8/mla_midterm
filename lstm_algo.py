@@ -15,31 +15,22 @@ yf.pdr_override()
 
 # For time stamps
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 # The tech stocks we'll use for this analysis
-tech_list = ['AAPL', 'GOOG', 'MSFT', 'AMZN']
+tech_list = ['AAPL']
 
 # Set up End and Start times for data grab
-tech_list = ['AAPL', 'GOOG', 'MSFT', 'AMZN']
+tech_list = ['AAPL']
 
 end = datetime.now()
 start = datetime(end.year - 1, end.month, end.day)
 
 for stock in tech_list:
     globals()[stock] = yf.download(stock, start, end)
-    
-
-company_list = [AAPL, GOOG, MSFT, AMZN]
-company_name = ["APPLE", "GOOGLE", "MICROSOFT", "AMAZON"]
-
-for company, com_name in zip(company_list, company_name):
-    company["company_name"] = com_name
-    
-df = pd.concat(company_list, axis=0)
-df.tail(10)
 
 # Get the stock quote
-df = pdr.get_data_yahoo('AAPL', start='2012-01-01', end=datetime.now())
+df = pdr.get_data_yahoo('AAPL', start='2019-01-01', end=datetime.now())
 # Show teh data
 plt.figure(figsize=(16,6))
 plt.title('Close Price History')
